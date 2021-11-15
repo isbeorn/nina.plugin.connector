@@ -1,0 +1,24 @@
+﻿# Changelog
+
+## Version 1.1.1.0
+
+- Allow reconnect trigger to be placed into a set multiple times
+
+## Version 1.1.0.0
+
+- Fixed issue when connection could not be established that the stored id of the device was overwritten with no device by accident
+- Added a trigger to connect to equipment when not connected
+- Layout improvement for mini sequencer
+- Added a FeaturedImageURL
+
+## Version 1.0.2.0
+
+- Added a validation to connect instruction, when no device of the selected type was ever connected before and no id is available in the profile
+
+## Version 1.0.1.0
+
+- Fixed issue where the equipment selection was not saved and was lost on reload of the instruction
+
+## Version 1.0.0.0
+
+- Initial release with a set of two instructions for connection and disconnection.
