@@ -65,14 +65,14 @@
                     Width="200"
                     HorizontalAlignment="Left"
                     ItemsSource="{Binding ConnectEquipmentInstruction.Devices}"
-                    SelectedItem="{Binding ConnectEquipmentInstruction.SelectedDevice}" />
+                    SelectedItem="{Binding SelectedDevice}" />
             </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>
     </DataTemplate>
     <DataTemplate x:Key="NINA.Plugins.Connector.Instructions.ReconnectTrigger_Mini">
         <mini:MiniSequenceItem>
             <mini:MiniSequenceItem.SequenceItemContent>
-                <TextBlock VerticalAlignment="Center" Text="{Binding ConnectEquipmentInstruction.SelectedDevice}" />
+                <TextBlock VerticalAlignment="Center" Text="{Binding SelectedDevice}" />
             </mini:MiniSequenceItem.SequenceItemContent>
         </mini:MiniSequenceItem>
     </DataTemplate>

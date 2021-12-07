@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## Version 1.1.3.0
+
+- Fixed issue where the equipment selection was not saved and was lost on reload of the trigger
+
 ## Version 1.1.1.0
 
 - Allow reconnect trigger to be placed into a set multiple times

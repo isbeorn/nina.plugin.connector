@@ -69,6 +69,17 @@ namespace NINA.Plugins.Connector.Instructions {
             TriggerRunner.Add(connectEquipmentInstruction);
         }
 
+
+        [JsonProperty]
+        public string SelectedDevice {
+            get => connectEquipmentInstruction.SelectedDevice;
+            set {
+                connectEquipmentInstruction.SelectedDevice = value;
+                Validate();
+                RaisePropertyChanged();
+            }
+        }
+
         public override bool AllowMultiplePerSet => true;
 
         public ConnectEquipment ConnectEquipmentInstruction { get => connectEquipmentInstruction; }
@@ -89,7 +100,7 @@ namespace NINA.Plugins.Connector.Instructions {
                                                                  copyMe.domeMediator,
                                                                  copyMe.safetyMonitorMediator) {
             CopyMetaData(copyMe);
-            connectEquipmentInstruction.SelectedDevice = copyMe.connectEquipmentInstruction.SelectedDevice;
+            SelectedDevice = copyMe.SelectedDevice;
         }
         public override object Clone() {
             return new ReconnectTrigger(this);
