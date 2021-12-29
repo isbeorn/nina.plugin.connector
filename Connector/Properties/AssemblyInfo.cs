@@ -27,11 +27,11 @@ using System.Runtime.InteropServices;
 
 //The assembly versioning
 //Should be incremented for each new release build of a plugin
-[assembly: AssemblyVersion("1.1.3.0")]
-[assembly: AssemblyFileVersion("1.1.3.0")]
+[assembly: AssemblyVersion("1.2.0.0")]
+[assembly: AssemblyFileVersion("1.2.0.0")]
 
 //The minimum Version of N.I.N.A. that this plugin is compatible with
-[assembly: AssemblyMetadata("MinimumApplicationVersion", "2.0.0.2013")]
+[assembly: AssemblyMetadata("MinimumApplicationVersion", "2.0.0.2020")]
 
 //Your plugin homepage - omit if not applicaple
 [assembly: AssemblyMetadata("Homepage", "https://www.patreon.com/stefanberg/")]
@@ -55,7 +55,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyMetadata("AltScreenshotURL", "")]
 [assembly: AssemblyMetadata("LongDescription", @"A plugin that adds a connect and disconnect instructions to the advanced sequencer  
   
-Make sure your equipment is properly setup, so that it is automatically selected when scanning for it. The instruction will scan for the selected equipment and try to connect to the device that was connected successfully the last time.   
+Make sure your equipment is properly setup, so that it is automatically selected when scanning for it. The instructions will scan for the selected equipment and try to connect to the device that was connected successfully the last time.   
 To use the instructions, just drag them in and select the type of device you want to connect to or disconnect from.
 
   

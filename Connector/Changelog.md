@@ -1,5 +1,10 @@
 ﻿# Changelog
 
+## Version 1.2.0.0
+
+- Added "Connect All" as well as "Disconnect All" instructions. 
+- "Connect All" will try to connect all devices that have a stored id in the profile
+
 ## Version 1.1.3.0
 
 - Fixed issue where the equipment selection was not saved and was lost on reload of the trigger
