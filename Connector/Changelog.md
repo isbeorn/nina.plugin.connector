@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## Version 2.0.0.0
+- Upgrade to .NET7
+
 ## Version 1.3.0.0
 - Option page now has options to auto connect all devices and do some fixed actions on application start. These will be executed once all plugins have been loaded.
 
