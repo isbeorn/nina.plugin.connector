@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## Version 2.0.0.1
+- Added "Switch Profile" instruction to switch between equipment profiles during a sequence. This will disconnect equipment, switch the profile and reconnect equipment.
+
 ## Version 2.0.0.0
 - Upgrade to .NET7
 

@@ -50,6 +50,18 @@
             </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type local:SwitchProfile}">
+        <nina:SequenceBlockView>
+            <nina:SequenceBlockView.SequenceItemContent>
+                <ComboBox
+                    Width="200"
+                    HorizontalAlignment="Left"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding ProfileService.Profiles}"
+                    SelectedItem="{Binding SelectedProfile}" />
+            </nina:SequenceBlockView.SequenceItemContent>
+        </nina:SequenceBlockView>
+    </DataTemplate>
     <DataTemplate x:Key="NINA.Plugins.Connector.Instructions.ConnectEquipment_Mini">
         <mini:MiniSequenceItem>
             <mini:MiniSequenceItem.SequenceItemContent>
