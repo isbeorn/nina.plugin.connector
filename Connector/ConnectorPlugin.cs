@@ -110,7 +110,7 @@ namespace NINA.Plugins.Connector
 
                     await UnparkTelescopeWhenEnabled(progress, ct);
 
-                    await OpenFlatCoverWhenEnabled(ct);
+                    await OpenFlatCoverWhenEnabled(progress, ct);
 
                     await ChangeFilterWhenEnabled(progress, ct);
 
@@ -144,13 +144,13 @@ namespace NINA.Plugins.Connector
             }
         }
 
-        private async Task OpenFlatCoverWhenEnabled(CancellationToken ct) {
+        private async Task OpenFlatCoverWhenEnabled(IProgress<ApplicationStatus> progress, CancellationToken ct) {
             if (OpenFlatCover) {
                 var flatInfo = flatDeviceMediator.GetInfo();
                 if (flatInfo.Connected) {
                     try {
                         Notification.ShowInformation($"Connector - Opening flat device cover");
-                        await flatDeviceMediator.OpenCover(ct);
+                        await flatDeviceMediator.OpenCover(progress, ct);
                     } catch (Exception ex) {
                         Logger.Error(ex);
                         Notification.ShowError($"Connector - An error occurred while opening flat device cover: {ex.Message}");
