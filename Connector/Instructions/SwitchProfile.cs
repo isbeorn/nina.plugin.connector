@@ -74,19 +74,19 @@ namespace NINA.Plugins.Connector.Instructions {
                 "Dome",
                 "Safety Monitor"
             };
-            SelectedProfile = profileService.Profiles.FirstOrDefault();
+            SelectedProfileId = profileService.Profiles.FirstOrDefault()?.Id ?? Guid.Empty;
         }
 
         public IProfileService ProfileService => profileService;
 
-        private ProfileMeta selectedProfile;
+        private Guid selectedProfileId;
         [JsonProperty]
-        public ProfileMeta SelectedProfile {
+        public Guid SelectedProfileId {
             get {
-                return selectedProfile;
+                return selectedProfileId;
             }
             set {
-                selectedProfile = value;
+                selectedProfileId = value;
                 RaisePropertyChanged();
             }
         }
@@ -131,17 +131,18 @@ namespace NINA.Plugins.Connector.Instructions {
 
         public override object Clone() {
             var clone = new SwitchProfile(this) {
+                SelectedProfileId = this.SelectedProfileId
             };
 
             return clone;
         }
 
         public override async Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
-            if (SelectedProfile == null) {
+            if (SelectedProfileId == Guid.Empty) {
                 throw new SequenceItemSkippedException($"No profile was selected");
             }
-            if(profileService.ActiveProfile.Id == SelectedProfile.Id) {
-                throw new SequenceItemSkippedException($"Selected profile is already active ({SelectedProfile.Id})");
+            if(profileService.ActiveProfile.Id == SelectedProfileId) {
+                throw new SequenceItemSkippedException($"Selected profile is already active ({SelectedProfileId})");
             }
 
             var errors = new List<Exception>();
@@ -171,9 +172,9 @@ namespace NINA.Plugins.Connector.Instructions {
             if (errors.Count > 0) {
                 throw new AggregateException(errors);
             }
-
-            if(profileService.Profiles.FirstOrDefault(x => x.Id == SelectedProfile.Id) != null) {
-                profileService.SelectProfile(SelectedProfile);
+            var p = profileService.Profiles.FirstOrDefault(x => x.Id == SelectedProfileId);
+            if (p != null) {
+                profileService.SelectProfile(p);
             } else {
                 throw new SequenceEntityFailedException("Unknown profile selected");
             }
@@ -241,7 +242,7 @@ namespace NINA.Plugins.Connector.Instructions {
         }
 
         public override string ToString() {
-            return $"Category: {Category}, Item: {nameof(SwitchProfile)}";
+            return $"Category: {Category}, Item: {nameof(SwitchProfile)}, ProfileId: {SelectedProfileId}";
         }
     }
 }

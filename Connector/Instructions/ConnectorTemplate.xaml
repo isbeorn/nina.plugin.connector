@@ -58,7 +58,8 @@
                     HorizontalAlignment="Left"
                     DisplayMemberPath="Name"
                     ItemsSource="{Binding ProfileService.Profiles}"
-                    SelectedItem="{Binding SelectedProfile}" />
+                    SelectedValue="{Binding SelectedProfileId, Mode=TwoWay}"
+                    SelectedValuePath="Id" />
             </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>
     </DataTemplate>

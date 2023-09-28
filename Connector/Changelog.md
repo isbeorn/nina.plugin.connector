@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## Version 2.0.1.0
+- Switch Profile Instruction now remembers the selection when being loaded from files, templates or being copied
+
 ## Version 2.0.0.2
 - Updated to latest nightly changes
 
