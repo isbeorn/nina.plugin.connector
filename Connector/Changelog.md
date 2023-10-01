@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## Version 2.0.2.0
+- Added a new trigger "Reconnect Camera on Download Failure" that will try to reconnect the camera in case it encounters a camera exposure download timeout
+  - Additionally it will set enable cooling and dew heater if they have been active before reconnecting
+
 ## Version 2.0.1.0
 - Switch Profile Instruction now remembers the selection when being loaded from files, templates or being copied
 
