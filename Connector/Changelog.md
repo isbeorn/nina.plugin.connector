@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## Version 2.0.2.1
+- Utilize new cameramediator event hook for download timeouts
+
 ## Version 2.0.2.0
 - Added a new trigger "Reconnect Camera on Download Failure" that will try to reconnect the camera in case it encounters a camera exposure download timeout
   - Additionally it will enable cooling and dew heater if they have been active before reconnecting

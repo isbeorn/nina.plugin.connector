@@ -43,8 +43,6 @@ namespace NINA.Plugins.Connector.Instructions {
             this.cameraMediator = cameraMediator;
             this.sequenceMediator = sequenceMediator;
 
-            // connectEquipmentInstruction = new ConnectEquipment(profileService, cameraMediator, fwMediator, focuserMediator, rotatorMediator, telescopeMediator, guiderMediator, switchMediator, flatDeviceMediator, weatherDataMediator, domeMediator, safetyMonitorMediator);
-            // TriggerRunner.Add(connectEquipmentInstruction);
         }
 
         private ReconnectOnDownloadFailure(ReconnectOnDownloadFailure copyMe) : this(copyMe.profileService,
@@ -55,12 +53,16 @@ namespace NINA.Plugins.Connector.Instructions {
 
         public override void AfterParentChanged() {
             var root = ItemUtility.GetRootContainer(this.Parent);
-            if (root == null && failureHook != null) {
-                failureHook.FailureEvent -= Root_FailureEvent;
+            if (root == null) {
+                if(failureHook != null) { 
+                    failureHook.FailureEvent -= Root_FailureEvent;
+                }
+                cameraMediator.DownloadTimeout -= CameraMediator_DownloadTimeout;
                 failureHook = null;
             } else if (root != null && root != failureHook && this.Parent.Status == SequenceEntityStatus.RUNNING) {
                 failureHook = root;
                 failureHook.FailureEvent += Root_FailureEvent;
+                cameraMediator.DownloadTimeout += CameraMediator_DownloadTimeout;
             }
             base.AfterParentChanged();
         }
@@ -70,6 +72,7 @@ namespace NINA.Plugins.Connector.Instructions {
             if (failureHook != null) {
                 failureHook.FailureEvent += Root_FailureEvent;
             }
+            cameraMediator.DownloadTimeout += CameraMediator_DownloadTimeout;
             base.SequenceBlockInitialize();
         }
 
@@ -79,6 +82,7 @@ namespace NINA.Plugins.Connector.Instructions {
             if (failureHook != null) {
                 failureHook.FailureEvent -= Root_FailureEvent;
             }
+            cameraMediator.DownloadTimeout -= CameraMediator_DownloadTimeout;
         }
         private async Task Root_FailureEvent(object sender, SequenceEntityFailureEventArgs e) {
             if (e.Entity == null) {
@@ -86,10 +90,12 @@ namespace NINA.Plugins.Connector.Instructions {
             }
             if(e.Exception is CameraDownloadFailedException || e.Exception is CameraExposureFailedException) {
                 shouldTrigger = true;
-            }            
+            }
         }
 
-
+        private async Task CameraMediator_DownloadTimeout(object sender, EventArgs e) {
+            shouldTrigger = true;
+        }
 
         public override object Clone() {
             return new ReconnectOnDownloadFailure(this);
