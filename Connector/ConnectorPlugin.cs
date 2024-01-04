@@ -167,7 +167,7 @@ namespace NINA.Plugins.Connector
                 if(fwInfo.Connected) {
                     if(Filter != null) { 
                         try {
-                            Notification.ShowInformation($"Changing filter to {FocuserPosition}");
+                            Notification.ShowInformation($"Changing filter to {Filter.Name}");
                             await fwMediator.ChangeFilter(Filter, ct, progress);
                         } catch (Exception ex) {
                             Logger.Error(ex);

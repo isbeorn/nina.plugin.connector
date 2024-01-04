@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## Version 2.0.2.2
+- Fix notification for filter move to correctly report filter position
+
 ## Version 2.0.2.1
 - Utilize new cameramediator event hook for download timeouts
 
