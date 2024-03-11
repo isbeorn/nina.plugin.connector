@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json;
 using NINA.Core.Model;
 using NINA.Core.Utility;
 using NINA.Equipment.Equipment;
@@ -22,7 +23,7 @@ namespace NINA.Plugins.Connector.Instructions {
     [ExportMetadata("Category", "Connector")]
     [Export(typeof(ISequenceItem))]
     [JsonObject(MemberSerialization.OptIn)]
-    class SwitchProfile : SequenceItem, IValidatable {
+    public partial class SwitchProfile : SequenceItem, IValidatable {
         private IProfileService profileService;
         private ICameraMediator cameraMediator;
         private IFilterWheelMediator fwMediator;
@@ -75,21 +76,18 @@ namespace NINA.Plugins.Connector.Instructions {
                 "Safety Monitor"
             };
             SelectedProfileId = profileService.Profiles.FirstOrDefault()?.Id ?? Guid.Empty;
+            Reconnect = true;
         }
 
         public IProfileService ProfileService => profileService;
 
+        [ObservableProperty]
+        [property: JsonProperty]
         private Guid selectedProfileId;
-        [JsonProperty]
-        public Guid SelectedProfileId {
-            get {
-                return selectedProfileId;
-            }
-            set {
-                selectedProfileId = value;
-                RaisePropertyChanged();
-            }
-        }
+
+        [ObservableProperty]
+        [property: JsonProperty]
+        private bool reconnect;
 
         public List<string> Devices { get; }
 
@@ -131,7 +129,8 @@ namespace NINA.Plugins.Connector.Instructions {
 
         public override object Clone() {
             var clone = new SwitchProfile(this) {
-                SelectedProfileId = this.SelectedProfileId
+                SelectedProfileId = this.SelectedProfileId,
+                Reconnect = this.Reconnect
             };
 
             return clone;
@@ -148,6 +147,7 @@ namespace NINA.Plugins.Connector.Instructions {
             var errors = new List<Exception>();
 
             foreach (var device in Devices) {
+                token.ThrowIfCancellationRequested();
                 var mediator = GetMediator(device);
 
                 var type = mediator.GetType();
@@ -180,33 +180,36 @@ namespace NINA.Plugins.Connector.Instructions {
             }
             
 
-            foreach (var device in Devices) {
-                if (!IsConnected(device)) {
-                    var profileId = GetProfileId(device);
-                    if (!(profileId == "No_Device" || profileId == "No_Guider")) {
-                        var mediator = GetMediator(device);
+            if(Reconnect) { 
+                foreach (var device in Devices) {
+                    token.ThrowIfCancellationRequested();
+                    if (!IsConnected(device)) {
+                        var profileId = GetProfileId(device);
+                        if (!(profileId == "No_Device" || profileId == "No_Guider")) {
+                            var mediator = GetMediator(device);
 
-                        var type = mediator.GetType();
-                        var GetInfo = type.GetMethod("GetInfo");
-                        var Rescan = type.GetMethod("Rescan");
-                        var devices = await (Task<IList<string>>)Rescan.Invoke(mediator, null);
+                            var type = mediator.GetType();
+                            var GetInfo = type.GetMethod("GetInfo");
+                            var Rescan = type.GetMethod("Rescan");
+                            var devices = await (Task<IList<string>>)Rescan.Invoke(mediator, null);
 
-                        if (devices.Contains(profileId)) {
-                            var Connect = type.GetMethod("Connect");
-                            var success = await (Task<bool>)Connect.Invoke(mediator, null);
+                            if (devices.Contains(profileId)) {
+                                var Connect = type.GetMethod("Connect");
+                                var success = await (Task<bool>)Connect.Invoke(mediator, null);
 
-                            DeviceInfo infoAfterConnect = (DeviceInfo)GetInfo.Invoke(mediator, null);
-                            success = success && infoAfterConnect.Connected;
-                            if (!success) {
-                                errors.Add(new Exception($"Failed to connect to {device}"));
+                                DeviceInfo infoAfterConnect = (DeviceInfo)GetInfo.Invoke(mediator, null);
+                                success = success && infoAfterConnect.Connected;
+                                if (!success) {
+                                    errors.Add(new Exception($"Failed to connect to {device}"));
+                                }
+                            } else {
+                                errors.Add(new Exception($"Failed to connect to {device} as it was not found"));
                             }
-                        } else {
-                            errors.Add(new Exception($"Failed to connect to {device} as it was not found"));
-                        }
 
+                        }
+                    } else {
+                        Logger.Info($"{device} is already connected");
                     }
-                } else {
-                    Logger.Info($"{device} is already connected");
                 }
             }
         }
@@ -242,7 +245,7 @@ namespace NINA.Plugins.Connector.Instructions {
         }
 
         public override string ToString() {
-            return $"Category: {Category}, Item: {nameof(SwitchProfile)}, ProfileId: {SelectedProfileId}";
+            return $"Category: {Category}, Item: {nameof(SwitchProfile)}, ProfileId: {SelectedProfileId}, Reconnect: {Reconnect}";
         }
     }
 }

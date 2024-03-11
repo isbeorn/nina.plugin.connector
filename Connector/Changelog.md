@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## Version 2.0.3.0
+- Add an option to "Switch Profile" to not automatically reconnect all devices
+
 ## Version 2.0.2.2
 - Fix notification for filter move to correctly report filter position
 

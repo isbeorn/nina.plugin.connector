@@ -53,13 +53,20 @@
     <DataTemplate DataType="{x:Type local:SwitchProfile}">
         <nina:SequenceBlockView>
             <nina:SequenceBlockView.SequenceItemContent>
-                <ComboBox
-                    Width="200"
-                    HorizontalAlignment="Left"
-                    DisplayMemberPath="Name"
-                    ItemsSource="{Binding ProfileService.Profiles}"
-                    SelectedValue="{Binding SelectedProfileId, Mode=TwoWay}"
-                    SelectedValuePath="Id" />
+                <StackPanel Orientation="Horizontal">
+                    <ComboBox
+                        Width="200"
+                        HorizontalAlignment="Left"
+                        DisplayMemberPath="Name"
+                        ItemsSource="{Binding ProfileService.Profiles}"
+                        SelectedValue="{Binding SelectedProfileId, Mode=TwoWay}"
+                        SelectedValuePath="Id" />
+                    <TextBlock
+                        Margin="5,0,0,0"
+                        VerticalAlignment="Center"
+                        Text="Reconnect: " />
+                    <CheckBox IsChecked="{Binding Reconnect, Mode=TwoWay}" />
+                </StackPanel>
             </nina:SequenceBlockView.SequenceItemContent>
         </nina:SequenceBlockView>
     </DataTemplate>
