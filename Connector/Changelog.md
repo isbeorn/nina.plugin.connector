@@ -1,5 +1,34 @@
 ﻿# Changelog
 
+## Version 2.1
+- All instructions and triggers are now part of the core application. Existing templates and saved sequences will be migrated automatically.
+- The connect on startup options remain in the plugin and are now its main purpose
+
+## Version 2.0.3.0
+- Add an option to "Switch Profile" to not automatically reconnect all devices
+
+## Version 2.0.2.2
+- Fix notification for filter move to correctly report filter position
+
+## Version 2.0.2.1
+- Utilize new cameramediator event hook for download timeouts
+
+## Version 2.0.2.0
+- Added a new trigger "Reconnect Camera on Download Failure" that will try to reconnect the camera in case it encounters a camera exposure download timeout
+  - Additionally it will enable cooling and dew heater if they have been active before reconnecting
+
+## Version 2.0.1.0
+- Switch Profile Instruction now remembers the selection when being loaded from files, templates or being copied
+
+## Version 2.0.0.2
+- Updated to latest nightly changes
+
+## Version 2.0.0.1
+- Added "Switch Profile" instruction to switch between equipment profiles during a sequence. This will disconnect equipment, switch the profile and reconnect equipment.
+
+## Version 2.0.0.0
+- Upgrade to .NET7
+
 ## Version 1.3.0.0
 - Option page now has options to auto connect all devices and do some fixed actions on application start. These will be executed once all plugins have been loaded.
 

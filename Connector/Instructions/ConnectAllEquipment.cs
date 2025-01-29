@@ -14,12 +14,6 @@ using System.Threading.Tasks;
 
 namespace NINA.Plugins.Connector.Instructions {
 
-    [ExportMetadata("Name", "Connect All Equipment")]
-    [ExportMetadata("Description", "Connects all equipment that has a stored id inside the profile")]
-    [ExportMetadata("Icon", "Connector.ConnectAllSVG")]
-    [ExportMetadata("Category", "Connector")]
-    [Export(typeof(ISequenceItem))]
-    [JsonObject(MemberSerialization.OptIn)]
     public class ConnectAllEquipment : SequenceItem, IValidatable {
         private IProfileService profileService;
         private ICameraMediator cameraMediator;
