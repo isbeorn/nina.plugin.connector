@@ -1,5 +1,9 @@
 ﻿# Changelog
 
+## Version 2.1
+- All instructions and triggers are now part of the core application. Existing templates and saved sequences will be migrated automatically.
+- The connect on startup options remain in the plugin and are now its main purpose
+
 ## Version 2.0.3.0
 - Add an option to "Switch Profile" to not automatically reconnect all devices
 
