@@ -91,8 +91,9 @@ jobs:
           git push origin "${{ env.PLUGIN_NAME }}/${{ github.ref_name }}"
 
       - name: Create pull request
+        shell: bash
         run: |
-          gh auth login --with-token <<< "${{ secrets.PAT }}"
+          echo "${{ secrets.PAT }}" | gh auth login --with-token
           gh pr create \
             --title "Add manifest for ${{ env.PLUGIN_NAME }} ${{ github.ref_name }}" \
             --body "Automatically generated manifest for release ${{ github.ref_name }}" \
