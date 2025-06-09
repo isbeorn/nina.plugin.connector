@@ -18,7 +18,7 @@ env:
   PLUGIN_NAME: "Connector"
   PLUGIN_SLN_NAME: "Connector"
   PLUGIN_DLL_NAME: "NINA.Plugins.Connector"
-  PLUGIN_MANIFEST_PATH: "c/Connector/3.2.0/manifest.yaml"
+  PLUGIN_MANIFEST_PATH: "c/Connector/3.2.0/manifest.${{ github.ref_name }}.yaml"
 
 jobs:
   build-and-release:
