@@ -9,6 +9,7 @@ using NINA.Sequencer.Validations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -76,7 +77,8 @@ namespace NINA.Plugins.Connector.Instructions {
                 case "Filter Wheel": return fwMediator;
                 case "Focuser": return focuserMediator;
                 case "Rotator": return rotatorMediator;
-                case "Telescope": return telescopeMediator;
+                case "Telescope":
+                case "Mount": return telescopeMediator;
                 case "Guider": return guiderMediator;
                 case "Switch": return switchMediator;
                 case "Flat Panel": return flatDeviceMediator;
@@ -93,7 +95,8 @@ namespace NINA.Plugins.Connector.Instructions {
                 case "Filter Wheel": return profileService.ActiveProfile.FilterWheelSettings.Id;
                 case "Focuser": return profileService.ActiveProfile.FocuserSettings.Id;
                 case "Rotator": return profileService.ActiveProfile.RotatorSettings.Id;
-                case "Telescope": return profileService.ActiveProfile.TelescopeSettings.Id;
+                case "Telescope":
+                case "Mount": return profileService.ActiveProfile.TelescopeSettings.Id;
                 case "Guider": return profileService.ActiveProfile.GuiderSettings.GuiderName;
                 case "Switch": return profileService.ActiveProfile.SwitchSettings.Id;
                 case "Flat Panel": return profileService.ActiveProfile.FlatDeviceSettings.Id;
@@ -132,7 +135,21 @@ namespace NINA.Plugins.Connector.Instructions {
         public override async Task Execute(IProgress<ApplicationStatus> progress, CancellationToken token) {
             var errors = new List<Exception>();
 
-            foreach(var device in Devices) {
+            // Use NINA's custom connection order when available and enabled.
+            // Access via reflection so the plugin compiles against older NINA.Plugin NuGet
+            // packages while still honouring the new profile settings at runtime.
+            IEnumerable<string> devicesToConnect = Devices;
+            var appSettings = profileService.ActiveProfile.ApplicationSettings;
+            var useCustomProp = appSettings.GetType().GetProperty("UseCustomDeviceConnectionOrder");
+            var orderProp = appSettings.GetType().GetProperty("DeviceConnectionOrder");
+            if (useCustomProp != null && orderProp != null && (bool)useCustomProp.GetValue(appSettings)) {
+                var customOrder = orderProp.GetValue(appSettings) as IEnumerable<string>;
+                if (customOrder != null) {
+                    devicesToConnect = customOrder.ToList();
+                }
+            }
+
+            foreach(var device in devicesToConnect) {
                 if (!IsConnected(device)) {
                     var profileId = GetProfileId(device);
                     if (!(profileId == "No_Device" || profileId == "No_Guider")) {
