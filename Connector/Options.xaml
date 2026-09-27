@@ -15,6 +15,7 @@
 
     <DataTemplate x:Key="Connector_Options">
         <Grid>
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
@@ -28,9 +29,12 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <TextBlock VerticalAlignment="Center" Text="Auto connect equipment on start" />
+            
             <CheckBox
                 Grid.Column="1"
                 Margin="5,5,0,0"
@@ -43,6 +47,7 @@
                 VerticalAlignment="Center"
                 Text="&#x21AA; Unpark telescope"
                 Visibility="{Binding AutoConnectEquipment, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+            
             <CheckBox
                 Grid.Row="1"
                 Grid.Column="1"
@@ -58,6 +63,7 @@
                 VerticalAlignment="Center"
                 Text="&#x21AA; Open flat device cover"
                 Visibility="{Binding AutoConnectEquipment, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+            
             <CheckBox
                 Grid.Row="2"
                 Grid.Column="1"
@@ -67,23 +73,25 @@
                 IsChecked="{Binding OpenFlatCover, Mode=TwoWay}"
                 Visibility="{Binding AutoConnectEquipment, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
 
-
             <TextBlock
                 Grid.Row="3"
                 Margin="0,5,0,0"
                 VerticalAlignment="Center"
                 Text="&#x21AA; Move to specific filter"
                 Visibility="{Binding AutoConnectEquipment, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+            
             <Grid
                 Grid.Row="3"
                 Grid.Column="1"
                 Margin="5,5,0,0"
                 Visibility="{Binding AutoConnectEquipment, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
+                
                 <CheckBox
                     VerticalAlignment="Center"
                     IsChecked="{Binding ChangeFilter, Mode=TwoWay}"
@@ -95,6 +103,7 @@
                     VerticalAlignment="Center"
                     Text="{ns:Loc LblFilter}"
                     Visibility="{Binding ChangeFilter, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+                
                 <ComboBox
                     Grid.Column="3"
                     Height="25"
@@ -104,15 +113,17 @@
                     SelectedItem="{Binding Filter, Mode=TwoWay, Converter={StaticResource FilterWheelFilterConverter}}"
                     SelectedValuePath="Name"
                     Visibility="{Binding ChangeFilter, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
+                    
                     <ComboBox.ItemsSource>
                         <CompositeCollection>
                             <x:Static Member="filter:NullFilter.Instance" />
                             <CollectionContainer Collection="{Binding Source={StaticResource ProfileService}, Path=ActiveProfile.FilterWheelSettings.FilterWheelFilters}" />
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
+                    
                 </ComboBox>
+                
             </Grid>
-
 
             <TextBlock
                 Grid.Row="4"
@@ -125,11 +136,13 @@
                 Grid.Column="1"
                 Margin="5,5,0,0"
                 Visibility="{Binding AutoConnectEquipment, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
+                
                 <CheckBox
                     VerticalAlignment="Center"
                     IsChecked="{Binding MoveFocuserToPosition, Mode=TwoWay}"
@@ -141,12 +154,14 @@
                     VerticalAlignment="Center"
                     Text="Position"
                     Visibility="{Binding MoveFocuserToPosition, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+                
                 <TextBox
                     Grid.Column="2"
                     MinWidth="50"
                     Margin="5,0,0,0"
                     Text="{Binding FocuserPosition}"
                     Visibility="{Binding MoveFocuserToPosition, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+                
             </Grid>
 
             <TextBlock
@@ -155,16 +170,19 @@
                 VerticalAlignment="Center"
                 Text="&#x21AA; Move rotator to specific position"
                 Visibility="{Binding AutoConnectEquipment, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+            
             <Grid
                 Grid.Row="5"
                 Grid.Column="1"
                 Margin="5,5,0,0"
                 Visibility="{Binding AutoConnectEquipment, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
+                
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
+                
                 <CheckBox
                     VerticalAlignment="Center"
                     IsChecked="{Binding MoveRotatorToPosition, Mode=TwoWay}"
@@ -176,6 +194,7 @@
                     VerticalAlignment="Center"
                     Text="Position"
                     Visibility="{Binding MoveRotatorToPosition, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+                
                 <TextBox
                     Grid.Column="2"
                     MinWidth="50"
@@ -190,6 +209,7 @@
                 VerticalAlignment="Center"
                 Text="&#x21AA; Auto cool camera"
                 Visibility="{Binding AutoConnectEquipment, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+            
             <CheckBox
                 Grid.Row="6"
                 Grid.Column="1"
@@ -198,8 +218,63 @@
                 VerticalAlignment="Center"
                 IsChecked="{Binding AutoCoolCamera, Mode=TwoWay}"
                 Visibility="{Binding AutoConnectEquipment, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}" />
+
+            <TextBlock
+                Grid.Row="7"
+                Margin="0,12,0,0"
+                VerticalAlignment="Center"
+                Text="Custom equipment connection order" />
+            
+            <CheckBox
+                Grid.Row="7"
+                Grid.Column="1"
+                Margin="5,12,0,0"
+                HorizontalAlignment="Left"
+                IsChecked="{Binding UseCustomDeviceConnectionOrder, Mode=TwoWay}" />
+
+            <GroupBox
+                Grid.Row="8"
+                Grid.ColumnSpan="2"
+                Margin="0,12,0,0"
+                Header="Device connection order"
+                Visibility="{Binding UseCustomDeviceConnectionOrder, Converter={StaticResource BooleanToVisibilityCollapsedConverter}}">
+                
+                <ItemsControl ItemsSource="{Binding DeviceConnectionOrder}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="5,2">
+                                
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                
+                                <TextBlock VerticalAlignment="Center" Text="{Binding}" />
+                                
+                                <Button
+                                    Grid.Column="1"
+                                    Width="28"
+                                    Margin="8,0,0,0"
+                                    Command="{Binding DataContext.MoveDeviceConnectionOrderUpCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                    CommandParameter="{Binding}"
+                                    Content="&#x25B2;"
+                                    ToolTip="Move up" />
+                                
+                                <Button
+                                    Grid.Column="2"
+                                    Width="28"
+                                    Margin="4,0,0,0"
+                                    Command="{Binding DataContext.MoveDeviceConnectionOrderDownCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                    CommandParameter="{Binding}"
+                                    Content="&#x25BC;"
+                                    ToolTip="Move down" />
+                                
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </GroupBox>
         </Grid>
     </DataTemplate>
-
-
 </ResourceDictionary>

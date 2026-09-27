@@ -1,5 +1,8 @@
 ﻿# Changelog
 
+## Unreleased
+- Add a Connector-specific device connection order that is saved per equipment profile and used by Connector's connect-all workflow.
+
 ## Version 2.1
 - All instructions and triggers are now part of the core application. Existing templates and saved sequences will be migrated automatically.
 - The connect on startup options remain in the plugin and are now its main purpose
