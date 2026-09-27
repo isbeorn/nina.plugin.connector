@@ -1,6 +1,6 @@
 ﻿# Changelog
 
-## Unreleased
+## Version 2.1.1
 - Edit the startup connection order with drag and drop, shared move buttons and Alt+Up/Down shortcuts.
 - Add a Connector-specific device connection order that is saved per equipment profile and used by Connector's connect-all workflow.
 
