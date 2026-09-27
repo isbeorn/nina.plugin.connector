@@ -428,10 +428,14 @@ namespace NINA.Plugins.Connector
         private void MoveDeviceConnectionOrder(string device, int offset)
         {
             var currentIndex = DeviceConnectionOrder.IndexOf(device);
-            var targetIndex = currentIndex + offset;
+            MoveDeviceConnectionOrderTo(device, currentIndex + offset);
+        }
 
-            if (currentIndex < 0 || targetIndex < 0 || targetIndex >= DeviceConnectionOrder.Count)
+        internal void MoveDeviceConnectionOrderTo(string device, int targetIndex) {
+            var currentIndex = DeviceConnectionOrder.IndexOf(device);
+            if (currentIndex < 0 || targetIndex < 0 || targetIndex >= DeviceConnectionOrder.Count || currentIndex == targetIndex) {
                 return;
+            }
 
             DeviceConnectionOrder.Move(currentIndex, targetIndex);
             PluginSettings.SetValueString(ConnectionOrder.SettingName, string.Join(ConnectionOrder.Separator, DeviceConnectionOrder));
